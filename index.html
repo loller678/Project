@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TubeStream Lite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+    input, button { margin: 10px; padding: 10px; width: 80%; font-size: 16px; }
+    iframe { width: 100%; height: 315px; margin-top: 20px; border: none; }
+    .tip { font-size: 14px; color: #555; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>🎧 TubeStream Lite</h2>
+  <input type="text" id="ytLink" placeholder="Paste YouTube link here">
+  <button onclick="loadVideo()">Play</button>
+  <iframe id="player" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <div class="tip">
+    🔒 After locking your screen, swipe down and tap ▶️ in media controls to resume audio.<br>
+    ⚙️ Works best in Chrome or Firefox with desktop mode enabled.
+  </div>
+
+  <script>
+    function loadVideo() {
+      const link = document.getElementById('ytLink').value;
+      const videoId = extractVideoId(link);
+      if (videoId) {
+        document.getElementById('player').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      } else {
+        alert("Invalid YouTube link");
+      }
+    }
+
+    function extractVideoId(url) {
+      const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+  </script>
+</body>
+<meta name="robots" content="noindex, nofollow">
+</html>
