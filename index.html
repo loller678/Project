@@ -9,31 +9,41 @@
     iframe { width: 100%; height: 315px; margin-top: 20px; border: none; }
     .tip { font-size: 14px; color: #555; margin-top: 20px; }
     #videoList button { display: block; margin: 5px auto; width: 90%; font-size: 14px; }
+    .quick-links { margin: 20px 0; }
+    .quick-links h3 { color: #333; margin-bottom: 10px; }
+    .quick-link-btn { background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .quick-link-btn:hover { background: #1976D2; }
   </style>
 </head>
 <body>
   <h2>🎧 TubeStream Lite</h2>
-
+  
+  <!-- Quick Links Section -->
+  <div class="quick-links">
+    <h3>⚡ Quick Links</h3>
+    <button class="quick-link-btn" onclick="loadQuickLink('https://www.youtube.com/watch?v=v8jDnBYc0bs&list=PL0eyrZgxdwhwP0AxnbBiDBCi53LK9uCMZ')">🎵 Featured Playlist</button>
+  </div>
+  
   <!-- Single Video Input -->
   <input type="text" id="ytLink" placeholder="Paste YouTube video link here">
   <button onclick="loadVideo()">Play Video</button>
-
+  
   <!-- Manual Playlist Input -->
   <textarea id="manualLinks" rows="6" placeholder="Paste multiple YouTube video links here, one per line"></textarea>
   <button onclick="parseManualLinks()">List Videos</button>
-
+  
   <!-- Player -->
   <iframe id="player" playsinline allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
+  
   <!-- Video Buttons -->
   <div id="videoList"></div>
-
+  
   <!-- Tips -->
   <div class="tip">
     🔒 After locking your screen, swipe down and tap ▶️ in media controls to resume audio.<br>
     ⚙️ Works best in Chrome or Firefox with desktop mode enabled.
   </div>
-
+  
   <script>
     function loadVideo() {
       const link = document.getElementById('ytLink').value;
@@ -44,13 +54,17 @@
         alert("Invalid YouTube video link");
       }
     }
-
+    
+    function loadQuickLink(url) {
+      document.getElementById('ytLink').value = url;
+      loadVideo();
+    }
+    
     function parseManualLinks() {
       const raw = document.getElementById('manualLinks').value.trim();
       const lines = raw.split('\n');
       const container = document.getElementById('videoList');
       container.innerHTML = '';
-
       lines.forEach(link => {
         const videoId = extractVideoId(link);
         if (videoId) {
@@ -64,13 +78,14 @@
         }
       });
     }
-
+    
     function extractVideoId(url) {
       const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
       const match = url.match(regex);
       return match ? match[1] : null;
     }
   </script>
+  
   <meta name="robots" content="noindex, nofollow">
 </body>
 </html>
