@@ -19,24 +19,34 @@
     🔒 After locking your screen, swipe down and tap ▶️ in media controls to resume audio.<br>
     ⚙️ Works best in Chrome or Firefox with desktop mode enabled.
   </div>
+<script>
+  function loadVideo() {
+    const link = document.getElementById('ytLink').value;
+    const videoId = extractVideoId(link);
+    const playlistId = extractPlaylistId(link);
 
-  <script>
-    function loadVideo() {
-      const link = document.getElementById('ytLink').value;
-      const videoId = extractVideoId(link);
-      if (videoId) {
-        document.getElementById('player').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      } else {
-        alert("Invalid YouTube link");
-      }
+    if (playlistId) {
+      document.getElementById('player').src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1`;
+    } else if (videoId) {
+      document.getElementById('player').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    } else {
+      alert("Invalid YouTube link");
     }
+  }
 
-    function extractVideoId(url) {
-      const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
-      const match = url.match(regex);
-      return match ? match[1] : null;
-    }
-  </script>
-</body>
+  function extractVideoId(url) {
+    const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+
+  function extractPlaylistId(url) {
+    const regex = /[?&]list=([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+</script>
+  </body>
 <meta name="robots" content="noindex, nofollow">
+
 </html>
